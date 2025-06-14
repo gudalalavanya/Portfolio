@@ -1,0 +1,183 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Portfolio</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
+        body {
+            background: linear-gradient(135deg, #001f3f, #0074D9, #001f3f);
+            color: #f8fafc;
+            text-align: center;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        header {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            font-size: 26px;
+            font-weight: bold;
+            text-transform: uppercase;
+            width: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            text-align: center;
+        }
+        nav {
+            margin-top: 80px;
+        }
+        nav a {
+            color: #38bdf8;
+            text-decoration: none;
+            margin: 0 20px;
+            font-size: 18px;
+            font-weight: bold;
+            transition: color 0.3s ease-in-out;
+        }
+        nav a:hover {
+            color: #0ea5e9;
+        }
+        .container {
+            max-width: 800px;
+            margin-top: 50px;
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.8);
+        }
+        .intro {
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #38bdf8;
+            text-transform: uppercase;
+        }
+        .tagline {
+            font-size: 20px;
+            margin-bottom: 40px;
+            font-style: italic;
+            color: #d1d5db;
+        }
+        input {
+            width: 80%;
+            max-width: 300px;
+            padding: 12px;
+            margin: 8px;
+            border: none;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 16px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid #38bdf8;
+            outline: none;
+        }
+        input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+        .btn {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 24px;
+            background: #38bdf8;
+            color: white;
+            font-size: 18px;
+            border-radius: 5px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+            box-shadow: 0 0 10px rgba(56, 189, 248, 0.6);
+        }
+        .btn:hover {
+            background: #0ea5e9;
+            transform: scale(1.05);
+        }
+        .message {
+            display: none;
+            background: #22c55e;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+            font-size: 16px;
+            animation: fadeOut 3s forwards;
+        }
+        @keyframes fadeOut {
+            0% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+        footer {
+            position: absolute;
+            bottom: 10px;
+            width: 100%;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.8);
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>My Portfolio</header>
+
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="projects.html">Projects</a>
+        <a href="skills.html">Skills</a>
+        <a href="contact.html">Contact</a>
+    </nav>
+
+    <div class="container">
+        <div class="intro">Welcome to My Portfolio</div>
+        
+        <div class="tagline">
+            Hi, I'm <strong id="displayName">[Your Name]</strong>,  
+            a passionate <strong id="displayProfession">[Your Profession]</strong>.
+        </div>
+
+        <input type="text" id="nameInput" placeholder="Enter Your Name">
+        <input type="text" id="professionInput" placeholder="Enter Your Profession">
+        <button class="btn" onclick="updateProfile()">Save</button>
+
+        <div id="successMessage" class="message">Saved Successfully! ✅</div>
+
+        <a href="contact.html" class="btn">Get in Touch</a>
+    </div>
+
+    <footer>
+        &copy; 2025 My Portfolio | All Rights Reserved
+    </footer>
+
+    <script>
+        // Load saved name and profession
+        window.onload = function() {
+            document.getElementById("displayName").innerText = localStorage.getItem("userName") || "[Your Name]";
+            document.getElementById("displayProfession").innerText = localStorage.getItem("userProfession") || "[Your Profession]";
+        };
+
+        function updateProfile() {
+            let name = document.getElementById("nameInput").value;
+            let profession = document.getElementById("professionInput").value;
+            let message = document.getElementById("successMessage");
+
+            if (name) {
+                localStorage.setItem("userName", name);
+                document.getElementById("displayName").innerText = name;
+            }
+            if (profession) {
+                localStorage.setItem("userProfession", profession);
+                document.getElementById("displayProfession").innerText = profession;
+            }
+
+            // Show success message
+            message.style.display = "block";
+            setTimeout(() => { message.style.display = "none"; }, 3000);
+        }
+    </script>
+
+</body>
+</html>
+

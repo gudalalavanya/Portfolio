@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Skills</title>
+    <style>
+        body { background-color: #0f172a; color: #f8fafc; text-align: center; padding: 20px; }
+        .container { max-width: 600px; margin: auto; padding: 20px; background: #1e293b; border-radius: 10px; }
+        input { width: 100%; padding: 10px; margin: 10px 0; border-radius: 5px; background: #334155; color: white; border: none; }
+        .btn { width: 100%; padding: 10px; margin-top: 15px; background: #38bdf8; color: white; font-size: 16px; border: none; border-radius: 5px; cursor: pointer; }
+        .btn:hover { background: #0ea5e9; }
+        #skills-container { margin-top: 20px; text-align: left; background: #334155; padding: 15px; border-radius: 5px; min-height: 50px; }
+        .skill-item { background: #38bdf8; padding: 8px 12px; margin: 5px; border-radius: 15px; display: inline-block; color: white; font-size: 14px; cursor: pointer; }
+        .skill-item:hover { background: #0ea5e9; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Add Your Skills</h2>
+
+        <input type="text" id="skillInput" placeholder="Enter a skill (e.g. JavaScript)">
+        <button class="btn" onclick="addSkill()">Add Skill</button>
+
+        <h2>Your Skills</h2>
+        <div id="skills-container">Your skills will appear here...</div>
+
+        <a href="index.html">⬅ Back to Home</a>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", loadSkills);
+
+        function addSkill() {
+            let skillText = document.getElementById("skillInput").value.trim();
+            if (skillText === "") {
+                alert("Please enter a skill.");
+                return;
+            }
+
+            let skills = JSON.parse(localStorage.getItem("skills")) || [];
+            if (!skills.includes(skillText)) {
+                skills.push(skillText);
+                localStorage.setItem("skills", JSON.stringify(skills));
+                displaySkills();
+            }
+
+            document.getElementById("skillInput").value = "";
+        }
+
+        function displaySkills() {
+            let skillsContainer = document.getElementById("skills-container");
+            skillsContainer.innerHTML = "";  // Clear existing skills
+
+            let skills = JSON.parse(localStorage.getItem("skills")) || [];
+            skills.forEach(skill => {
+                let skillItem = document.createElement("span");
+                skillItem.classList.add("skill-item");
+                skillItem.innerText = skill;
+                skillItem.onclick = function() { removeSkill(skill); };
+                skillsContainer.appendChild(skillItem);
+            });
+        }
+
+        function removeSkill(skill) {
+            let skills = JSON.parse(localStorage.getItem("skills")) || [];
+            skills = skills.filter(s => s !== skill);
+            localStorage.setItem("skills", JSON.stringify(skills));
+            displaySkills();
+        }
+
+        function loadSkills() {
+            displaySkills();
+        }
+    </script>
+
+</body>
+</html>
+

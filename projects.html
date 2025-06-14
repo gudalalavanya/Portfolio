@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Projects</title>
+    <style>
+        body { background-color: #0f172a; color: #f8fafc; text-align: center; padding: 20px; }
+        .container { max-width: 600px; margin: auto; padding: 20px; background: #1e293b; border-radius: 10px; }
+        input, textarea { width: 100%; padding: 10px; margin: 10px 0; border-radius: 5px; background: #334155; color: white; border: none; }
+        .btn { width: 100%; padding: 10px; margin-top: 15px; background: #38bdf8; color: white; font-size: 16px; border: none; border-radius: 5px; cursor: pointer; }
+        .btn:hover { background: #0ea5e9; }
+        #projects-container { margin-top: 20px; text-align: left; background: #334155; padding: 15px; border-radius: 5px; }
+        .project-box { background: #475569; padding: 10px; margin: 10px 0; border-radius: 5px; position: relative; }
+        .project-title { font-size: 18px; font-weight: bold; }
+        .project-desc { font-size: 14px; margin-top: 5px; }
+        .project-image { max-width: 100%; height: auto; margin-top: 10px; border-radius: 5px; }
+        .delete-btn { background: #ef4444; color: white; padding: 5px 10px; border: none; border-radius: 5px; font-size: 12px; cursor: pointer; position: absolute; top: 5px; right: 5px; }
+        .delete-btn:hover { background: #dc2626; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Add Your Projects</h2>
+
+        <input type="text" id="projectTitle" placeholder="Project Title">
+        <textarea id="projectDescription" placeholder="Write your project idea..."></textarea>
+        <input type="file" id="projectImage" accept="image/*" multiple>
+        <button class="btn" onclick="addProject()">Add Project</button>
+
+        <h2>Your Projects</h2>
+        <div id="projects-container">Your projects will appear here...</div>
+
+        <a href="index.html">⬅ Back to Home</a>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", loadProjects);
+
+        function addProject() {
+            let title = document.getElementById("projectTitle").value.trim();
+            let description = document.getElementById("projectDescription").value.trim();
+            let imageInput = document.getElementById("projectImage");
+
+            if (title === "" || description === "") {
+                alert("Please enter a project title and description.");
+                return;
+            }
+
+            let projects = JSON.parse(localStorage.getItem("projects")) || [];
+            let newProject = { title, description, images: [] };
+
+            if (imageInput.files.length > 0) {
+                for (let file of imageInput.files) {
+                    newProject.images.push(URL.createObjectURL(file));
+                }
+            }
+
+            projects.push(newProject);
+            localStorage.setItem("projects", JSON.stringify(projects));
+            displayProjects();
+
+            document.getElementById("projectTitle").value = "";
+            document.getElementById("projectDescription").value = "";
+            document.getElementById("projectImage").value = "";
+        }
+
+        function displayProjects() {
+            let projectsContainer = document.getElementById("projects-container");
+            projectsContainer.innerHTML = "";  
+
+            let projects = JSON.parse(localStorage.getItem("projects")) || [];
+            projects.forEach((project, index) => {
+                let projectBox = document.createElement("div");
+                projectBox.classList.add("project-box");
+
+                let projectTitle = document.createElement("div");
+                projectTitle.classList.add("project-title");
+                projectTitle.innerText = project.title;
+
+                let projectDesc = document.createElement("div");
+                projectDesc.classList.add("project-desc");
+                projectDesc.innerText = project.description;
+
+                projectBox.appendChild(projectTitle);
+                projectBox.appendChild(projectDesc);
+
+                project.images.forEach(imageSrc => {
+                    let image = document.createElement("img");
+                    image.src = imageSrc;
+                    image.classList.add("project-image");
+                    projectBox.appendChild(image);
+                });
+
+                let deleteButton = document.createElement("button");
+                deleteButton.classList.add("delete-btn");
+                deleteButton.innerText = "Delete";
+                deleteButton.onclick = function() { removeProject(index); };
+                projectBox.appendChild(deleteButton);
+
+                projectsContainer.appendChild(projectBox);
+            });
+        }
+
+        function removeProject(index) {
+            let projects = JSON.parse(localStorage.getItem("projects")) || [];
+            projects.splice(index, 1);
+            localStorage.setItem("projects", JSON.stringify(projects));
+            displayProjects();
+        }
+
+        function loadProjects() {
+            displayProjects();
+        }
+    </script>
+
+</body>
+</html>

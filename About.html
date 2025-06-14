@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Me</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        body {
+            background: #A7C7E7; /* Light Blue Background */
+            color: #0F172A;
+            text-align: center;
+            padding: 20px;
+        }
+        h2 {
+            color: #00509E;
+            font-size: 28px;
+        }
+        textarea {
+            width: 80%;
+            max-width: 600px;
+            height: 120px;
+            padding: 10px;
+            border-radius: 5px;
+            border: 2px solid #00509E;
+            font-size: 16px;
+            background: #ffffff;
+            color: #0F172A;
+            outline: none;
+        }
+        .btn {
+            padding: 10px 15px;
+            background: #00509E;
+            color: white;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            border: none;
+            margin-top: 10px;
+        }
+        .btn:hover {
+            background: #003F7D;
+        }
+        #output {
+            margin-top: 15px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>About Me</h2>
+    <textarea id="description" placeholder="Write about yourself..."></textarea>
+    <br>
+    <button class="btn" onclick="updateDescription()">Save</button>
+    <p id="output">Your description will appear here...</p>
+    <br>
+    <a href="index.html" class="btn">⬅ Back to Home</a>
+
+    <script>
+        function updateDescription() {
+            let text = document.getElementById("description").value;
+            document.getElementById("output").innerHTML = text || "Please enter a description.";
+        }
+    </script>
+
+</body>
+</html>

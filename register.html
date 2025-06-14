@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        body {
+            background: linear-gradient(135deg, #001f3f, #0074D9, #001f3f);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .register-container {
+            background: rgba(0, 0, 0, 0.85);
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(56, 189, 248, 0.7);
+            text-align: center;
+            width: 350px;
+        }
+        .register-container h2 {
+            color: #38bdf8;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+        .input-field {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid #38bdf8;
+            outline: none;
+        }
+        .input-field::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+        .password-wrapper {
+            position: relative;
+        }
+        .show-password {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: white;
+        }
+        .btn {
+            width: 100%;
+            padding: 12px;
+            margin-top: 20px;
+            background: #38bdf8;
+            color: white;
+            font-size: 18px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+            border: none;
+        }
+        .btn:hover {
+            background: #0ea5e9;
+            transform: scale(1.05);
+        }
+        .error-message, .success-message {
+            display: none;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+        .error-message {
+            color: #ff4d4d;
+        }
+        .success-message {
+            color: #22c55e;
+        }
+        .login-link {
+            margin-top: 15px;
+            font-size: 14px;
+        }
+        .login-link a {
+            color: #38bdf8;
+            text-decoration: none;
+        }
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="register-container">
+        <h2>Register</h2>
+        <input type="text" id="name" class="input-field" placeholder="Full Name">
+        <input type="email" id="email" class="input-field" placeholder="Email">
+        <input type="number" id="age" class="input-field" placeholder="Age">
+        
+        <div class="password-wrapper">
+            <input type="password" id="password" class="input-field" placeholder="Create a password">
+            <span class="show-password" onclick="togglePassword()">👁</span>
+        </div>
+
+        <button class="btn" onclick="registerUser()">Register</button>
+
+        <p class="error-message" id="error-message">User already exists!</p>
+        <p class="success-message" id="success-message">Registered Successfully! ✅</p>
+
+        <p class="login-link">Already registered? <a href="login.html">Login here</a></p>
+    </div>
+
+    <script>
+        function togglePassword() {
+            let passwordField = document.getElementById("password");
+            passwordField.type = passwordField.type === "password" ? "text" : "password";
+        }
+
+        function registerUser() {
+            let name = document.getElementById("name").value;
+            let email = document.getElementById("email").value;
+            let age = document.getElementById("age").value;
+            let password = document.getElementById("password").value;
+            let errorMessage = document.getElementById("error-message");
+            let successMessage = document.getElementById("success-message");
+
+            if (localStorage.getItem(email)) {
+                errorMessage.style.display = "block";
+                successMessage.style.display = "none";
+            } else {
+                let userData = { name, email, age, password };
+                localStorage.setItem(email, JSON.stringify(userData));
+
+                successMessage.style.display = "block";
+                errorMessage.style.display = "none";
+
+                setTimeout(() => {
+                    window.location.href = "login.html";
+                }, 2000);
+            }
+        }
+    </script>
+
+</body>
+</html>
+

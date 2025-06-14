@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        body {
+            background: linear-gradient(135deg, #001f3f, #0074D9, #001f3f);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .login-container {
+            background: rgba(0, 0, 0, 0.85);
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(56, 189, 248, 0.7);
+            text-align: center;
+            width: 350px;
+        }
+        .login-container h2 {
+            color: #38bdf8;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+        .input-field {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid #38bdf8;
+            outline: none;
+        }
+        .input-field::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+        .password-wrapper {
+            position: relative;
+        }
+        .show-password {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: white;
+        }
+        .btn {
+            width: 100%;
+            padding: 12px;
+            margin-top: 20px;
+            background: #38bdf8;
+            color: white;
+            font-size: 18px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+            border: none;
+        }
+        .btn:hover {
+            background: #0ea5e9;
+            transform: scale(1.05);
+        }
+        .error-message {
+            display: none;
+            color: #ff4d4d;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+        .register-link {
+            margin-top: 15px;
+            font-size: 14px;
+        }
+        .register-link a {
+            color: #38bdf8;
+            text-decoration: none;
+        }
+        .register-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-container">
+        <h2>Login</h2>
+        <input type="email" id="email" class="input-field" placeholder="Enter your email">
+        
+        <div class="password-wrapper">
+            <input type="password" id="password" class="input-field" placeholder="Enter your password">
+            <span class="show-password" onclick="togglePassword()">👁</span>
+        </div>
+
+        <button class="btn" onclick="validateLogin()">Login</button>
+        <p class="error-message" id="error-message">Invalid email or password!</p>
+
+        <p class="register-link">New user? <a href="register.html">Register here</a></p>
+    </div>
+
+    <script>
+        function togglePassword() {
+            let passwordField = document.getElementById("password");
+            passwordField.type = passwordField.type === "password" ? "text" : "password";
+        }
+
+        function validateLogin() {
+            let email = document.getElementById("email").value;
+            let password = document.getElementById("password").value;
+            let errorMessage = document.getElementById("error-message");
+
+            let storedUser = localStorage.getItem(email);
+
+            if (storedUser) {
+                let userData = JSON.parse(storedUser);
+                if (userData.password === password) {
+                    alert("Login Successful! ✅");
+                    window.location.href = "index.html";
+                } else {
+                    errorMessage.style.display = "block";
+                }
+            } else {
+                errorMessage.style.display = "block";
+            }
+        }
+    </script>
+
+</body>
+</html>
